@@ -20,6 +20,11 @@ export class Score extends BaseEntity {
   @Column({default: 0})
   gitScore: number;
 
+  @Column({default: 0})
+  totalScore: number
+
   @CreateDateColumn()
   createdAt: Date;
+
+
 }

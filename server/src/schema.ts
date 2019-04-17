@@ -9,6 +9,16 @@ const typeDefs = `
 
   type Query {
     user(username: String): User
+    scores: [Score]
+  }
+
+  type Score {
+    userName: String
+    profileScore: Int
+    gitScore: Int
+    id: Int
+    createdAt: String
+    totalScore: Int
   }
 
   type User {
@@ -94,12 +104,9 @@ const resolvers = {
       score.userName = username;
 
       if (data.stats.totalPinnedRepos > 0) {
-
-
         const promises = data.stats.repoNames.map(async (repo, i) => {
-
-          const TEST = await fetchRepoData(repo.owner, repo.name)
-            .then(repoData => {
+          const TEST = await fetchRepoData(repo.owner, repo.name).then(
+            repoData => {
               if (!repoData) throw new Error();
 
               averageRepoScore += repoData.totalRepoScore;
@@ -112,19 +119,14 @@ const resolvers = {
                 gitIgnoreScore: repoData.gitIgnoreScore,
                 repoReadMe: repoData.repoReadMe,
                 totalRepoScore: repoData.totalRepoScore
-
               };
+            }
+          );
 
-            });
-
-          return TEST
+          return TEST;
         });
 
-
-
-
         return Promise.all(promises).then(() => {
-
           data.profileScore = data.score;
           data.averageRepoScore = Math.round(
             averageRepoScore / data.stats.repoNames.length
@@ -133,18 +135,29 @@ const resolvers = {
           data.score += data.repoScore;
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
+          score.totalScore = score.profileScore + score.gitScore
           getRepository(Score).save(score);
 
           return data;
         });
       }
+
+      score.totalScore = score.profileScore
       await getRepository(Score).save(score);
       data.profileScore = data.score;
       data.repoScore = 0;
 
       return data;
+    },
+    scores: async (_, __, ___, ____) => {
+      return await Score.find(
+        {
+          take: 10
+        }
+      )
     }
-  }
+  },
+  
 };
 
 const schema = makeExecutableSchema({
