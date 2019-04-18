@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import * as Koa from "koa";
+import * as cors from "@koa/cors";
 import setupDb from "./db";
 import * as koaBody from "koa-bodyparser";
 import * as Router from "koa-router";
@@ -42,6 +43,7 @@ router.get('/graphiql', graphiqlKoa({
 }));
 
 app
+  .use(cors({ credentials: true, keepHeadersOnError: true }))
   .use(router.routes())
   .use(router.allowedMethods());
 
