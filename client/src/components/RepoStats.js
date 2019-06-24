@@ -37,9 +37,11 @@ export default class Tabs extends React.Component {
     return (
       <dl className="tabs-list" key="tabs-list">
         
+        
       {this._tabsData.map((item, i) => {
+        // Demmy: mapping over returned results branches and commits
       const tabActivityModifier = this.state.tabs[i].isActive ? ` ${TAB_ACTIVITY_MODIFIER}` : ``;
-          
+          console.log("Demmy: returned results branches and commits: ", item);
       let content =  <div onClick={this.checkDataSet}>
           <h3>Total Repository score: {item.totalRepoScore}%</h3>
           <p className="stats__description"> This is accumulated based on following factors: </p>

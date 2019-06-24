@@ -25,7 +25,8 @@ const icon = value => {
 };
 
 export default function ProfileStats(props) {
-  console.log(props)
+  // Demmy: query is received here as props
+  console.log("Demmy: query received as props: ", props)
   const profileStats = props.user.profileStats;
   return (
     <div className="row">
@@ -124,6 +125,7 @@ export default function ProfileStats(props) {
             <h2> Git Use </h2>
             <p>Click to check your detailed feedback per repository</p>
             {props.user.stats.repoNames && (
+              // Demmy: passing the repo stats as props
               <RepoStats repos={props.user.stats.repoNames} />
             )}
           </section>
