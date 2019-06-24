@@ -77,9 +77,14 @@ exports.fetchGeneralData = username => {
                 totalPinnedRepos,
                 averageBranchPerRepo,
                 averageCommitPerBranch,
-                repoNames
+                repoNames,
+                // Demmy: added
+                repoPlusBranchCount,
+                branchNamePlusCommitCount
+               
             };
         }
-    });
+    })
+        .catch(e => e);
 };
 //# sourceMappingURL=gitUse.js.map

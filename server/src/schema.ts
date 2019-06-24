@@ -5,10 +5,16 @@ import { analizeProfile } from "./data/profileScore";
 import { fetchGeneralData } from "./data/gitUse";
 import { Score } from "./score/entity";
 
+// Demmy: this is the defining part of the user object
 const typeDefs = `
 
   type Query {
     user(username: String): User
+    repo: Repo
+  }
+
+  type Repo {
+    greet: String
   }
 
   type User {
@@ -84,6 +90,7 @@ const resolvers = {
       const data = await analizeProfile(username);
       const gitUse = await fetchGeneralData(username);
       data.stats = gitUse;
+      console.log("Demmy: data stats: ", data.stats)
       let averageRepoScore = 0;
       let lastScore;
       const userScores = await Score.find({ userName: username });
@@ -105,12 +112,13 @@ const resolvers = {
           const TEST = await fetchRepoData(repo.owner, repo.name).then(
             repoData => {
               if (!repoData) throw new Error();
-
+              console.log("Demmy: repo data: ", repoData)
               averageRepoScore += repoData.totalRepoScore;
               data.stats.repoNames[i] = {
                 ...data.stats.repoNames[i],
                 commitScore: { ...repoData.commitScore },
                 branchScore: { ...repoData.branchScore },
+                amountOfBranches: { ...repoData.branchCount },
                 description: repoData.description,
                 gitIgnoreScore: repoData.gitIgnoreScore,
                 repoReadMe: repoData.repoReadMe,
@@ -132,6 +140,7 @@ const resolvers = {
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
           saveScoreIfUpdated(score, lastScore);
+          console.log("Demmy: console log final data: ", data)
           return data;
         });
       }
@@ -140,8 +149,14 @@ const resolvers = {
       data.profileScore = data.score;
       data.repoScore = 0;
       return data;
+    },
+    repo: async () => {
+      return {
+        greet: 'Hallo jongens!'
+      }
     }
-  }
+  },
+
 };
 
 const schema = makeExecutableSchema({
@@ -157,7 +172,7 @@ const saveScoreIfUpdated = (score, lastScore) => {
     const oldScoreValue = lastScore.gitScore + lastScore.profileScore;
     if (
       new Date().toLocaleDateString() ===
-        lastScore.createdAt.toLocaleDateString() &&
+      lastScore.createdAt.toLocaleDateString() &&
       newScore === oldScoreValue
     ) {
       return;

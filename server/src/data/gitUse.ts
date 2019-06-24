@@ -53,10 +53,8 @@ export const fetchGeneralData = username => {
         `
   }).then(res => {
 
-    // console.log(`REPOS RESULT`, res.data.user.pinnedRepositories.edges);
-    // console.log(res.data.user.pinnedRepositories.totalCount);
     const totalPinnedRepos = res.data.user.pinnedRepositories.totalCount;
-    // console.log(res.data.user.pinnedRepositories.totalCount + ' total count')
+
     if (totalPinnedRepos === 0) {
       return 0;
     } else {
@@ -65,6 +63,7 @@ export const fetchGeneralData = username => {
           const repoName = repo.node.name;
           const branchCount = repo.node.refs.totalCount;
           const repoOwner = repo.node.owner.login
+          // Demmy: branches are counted here
           return { repoName, repoOwner, branchCount };
         }
       );
@@ -78,9 +77,6 @@ export const fetchGeneralData = username => {
         }
       );
 
-      // console.log(totalPinnedRepos, '- totalPinnenRepo')
-      // console.log(repoPlusBranchCount, '- repoPlusBranchCount')
-      // console.log(branchNamePlusCommitCount, '-branchNamePlusCommitCount')
       const {
         averageBranchPerRepo,
         averageCommitPerBranch
@@ -90,19 +86,22 @@ export const fetchGeneralData = username => {
         branchNamePlusCommitCount
       );
 
-      // console.log(totalPinnedRepos, averageBranchPerRepo, averageCommitPerBranch)
       const repoNames = repoPlusBranchCount.map(rep => {
-        return { name: rep.repoName, 
-          owner: rep.repoOwner }
+        return {
+          name: rep.repoName,
+          owner: rep.repoOwner
+        }
       });
 
       return {
         totalPinnedRepos,
         averageBranchPerRepo,
         averageCommitPerBranch,
-        repoNames
+        repoNames,
+        // Demmy: added this one for branch count
+        repoPlusBranchCount
       };
     }
   })
-  .catch(e => e)
+    .catch(e => e)
 };
