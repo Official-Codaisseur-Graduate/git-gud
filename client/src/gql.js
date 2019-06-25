@@ -59,8 +59,8 @@ export const GET_USER_DATA = gql`
 // Option: harcode info to make the request to github
 // which username, which repo
 export const GET_TEST = gql`
-  query GetSpecificRepo {
-    repo {
+  query GetSpecificRepo($username: String!) {
+    repo(username: $username) {
       greet
       repos
       languages

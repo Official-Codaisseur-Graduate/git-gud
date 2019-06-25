@@ -19,7 +19,7 @@ class App extends Component {
       <Query
         query={GET_TEST}
         // skip={props.username === ``}
-        variables={{ username: 'reinoptland' }}
+        variables={{ username: 'AidaRos95' }}
       >
         {({ loading, error, data }) => {
           console.log(data)

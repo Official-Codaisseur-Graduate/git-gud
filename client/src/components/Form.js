@@ -5,6 +5,7 @@ import ProfileStats from "./ProfileStats";
 import Loader from "./Loader";
 
 export default function Form(props) {
+  console.log('PROPS', props)
   return (
     <div>
       <form className="form" onSubmit={props.onSubmit}>
@@ -35,8 +36,9 @@ export default function Form(props) {
                 <p>Please submit valid username </p>
               </div>
             );
-
-          return <div> {data && <ProfileStats user={data.user} />}</div>;
+            console.log(data)
+            return null
+          // return <div> {data && <ProfileStats user={data.user} />}</div>;
         }}
       </Query>
     </div>

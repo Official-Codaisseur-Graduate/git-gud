@@ -14,6 +14,7 @@ export default class FormContainer extends React.Component {
   }
 
   onChange = event => {
+    console.log(this.state)
     this.setState({
       search: event.target.value
     });
@@ -21,6 +22,7 @@ export default class FormContainer extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
+    console.log('ONSUBMIT', this.state)
     this.setState({
       username: this.state.search,
       landingPage: false
