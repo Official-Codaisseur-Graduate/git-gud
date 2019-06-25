@@ -10,6 +10,11 @@ const typeDefs = `
 
   type Query {
     user(username: String): User
+    repo: Repo
+  }
+
+  type Repo {
+    greet: String
   }
 
   type User {
@@ -84,6 +89,7 @@ const resolvers = {
             const data = await profileScore_1.analizeProfile(username);
             const gitUse = await gitUse_1.fetchGeneralData(username);
             data.stats = gitUse;
+            console.log("Demmy: data stats: ", data.stats);
             let averageRepoScore = 0;
             let lastScore;
             const userScores = await entity_1.Score.find({ userName: username });
@@ -103,8 +109,9 @@ const resolvers = {
                     const TEST = await repoDetails_1.fetchRepoData(repo.owner, repo.name).then(repoData => {
                         if (!repoData)
                             throw new Error();
+                        console.log("Demmy: repo data: ", repoData);
                         averageRepoScore += repoData.totalRepoScore;
-                        data.stats.repoNames[i] = Object.assign({}, data.stats.repoNames[i], { commitScore: Object.assign({}, repoData.commitScore), branchScore: Object.assign({}, repoData.branchScore), description: repoData.description, gitIgnoreScore: repoData.gitIgnoreScore, repoReadMe: repoData.repoReadMe, totalRepoScore: repoData.totalRepoScore });
+                        data.stats.repoNames[i] = Object.assign({}, data.stats.repoNames[i], { commitScore: Object.assign({}, repoData.commitScore), branchScore: Object.assign({}, repoData.branchScore), amountOfBranches: Object.assign({}, repoData.branchCount), description: repoData.description, gitIgnoreScore: repoData.gitIgnoreScore, repoReadMe: repoData.repoReadMe, totalRepoScore: repoData.totalRepoScore });
                     });
                     return TEST;
                 });
@@ -116,6 +123,7 @@ const resolvers = {
                     data.score = Math.round(data.score);
                     score.gitScore = data.repoScore;
                     saveScoreIfUpdated(score, lastScore);
+                    console.log("Demmy: console log final data: ", data);
                     return data;
                 });
             }
@@ -123,8 +131,13 @@ const resolvers = {
             data.profileScore = data.score;
             data.repoScore = 0;
             return data;
+        },
+        repo: async () => {
+            return {
+                greet: 'Hallo jongens!'
+            };
         }
-    }
+    },
 };
 const schema = graphql_tools_1.makeExecutableSchema({
     typeDefs,

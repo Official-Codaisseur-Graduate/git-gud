@@ -4,6 +4,7 @@ import { fetchRepoData } from "./data/repoDetails";
 import { analizeProfile } from "./data/profileScore";
 import { fetchGeneralData } from "./data/gitUse";
 import { Score } from "./score/entity";
+import { fetchUser } from "./data/user";
 
 // Demmy: this is the defining part of the user object
 const typeDefs = `
@@ -11,7 +12,13 @@ const typeDefs = `
   type Query {
     user(username: String): User
     repo: Repo
+    username: Username
   }
+
+  type Username {
+    greet: String
+  }
+
 
   type Repo {
     greet: String
@@ -90,7 +97,6 @@ const resolvers = {
       const data = await analizeProfile(username);
       const gitUse = await fetchGeneralData(username);
       data.stats = gitUse;
-      console.log("Demmy: data stats: ", data.stats)
       let averageRepoScore = 0;
       let lastScore;
       const userScores = await Score.find({ userName: username });
@@ -112,7 +118,6 @@ const resolvers = {
           const TEST = await fetchRepoData(repo.owner, repo.name).then(
             repoData => {
               if (!repoData) throw new Error();
-              console.log("Demmy: repo data: ", repoData)
               averageRepoScore += repoData.totalRepoScore;
               data.stats.repoNames[i] = {
                 ...data.stats.repoNames[i],
@@ -140,7 +145,6 @@ const resolvers = {
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
           saveScoreIfUpdated(score, lastScore);
-          console.log("Demmy: console log final data: ", data)
           return data;
         });
       }
@@ -150,9 +154,19 @@ const resolvers = {
       data.repoScore = 0;
       return data;
     },
-    repo: async () => {
+    username: async () => {
+      // Needs to fetch here
+      const data = await fetchUser("demmyhonore");
+      console.log("fetchUser", data.nodes)
       return {
-        greet: 'Hallo jongens!'
+        greet: 'Hallo username!'
+      }
+    },
+    repo: async () => {
+
+      // Needs to fetch here
+      return {
+        greet: 'Hallo repo!'
       }
     }
   },

@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
 
-// Demmy: this is the query part of the user object
 export const GET_USER_DATA = gql`
   query GetUser($username: String!) {
     user(username: $username) {
@@ -56,10 +55,12 @@ export const GET_USER_DATA = gql`
   }
 `;
 
-// Option: harcode info to make the request to github
-// which username, which repo
-export const GET_TEST = gql`
-  query GetSpecificRepo {
+// Newly added
+export const GET_NEW_QUERY = gql`
+  query {
+    username {
+      greet
+    }
     repo {
       greet
     }

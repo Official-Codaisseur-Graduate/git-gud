@@ -1,43 +1,25 @@
-import React, { Component } from 'react';
-import FormContainer from './components/FormContainer';
-import FeedbackButton from './components/FeedbackButton';
-import { GET_USER_DATA, GET_TEST } from './gql'
+import React, { Component } from "react";
+import FormContainer from "./components/FormContainer";
+import FeedbackButton from "./components/FeedbackButton";
 import { Query } from "react-apollo";
+import { GET_NEW_QUERY } from "./gql";
 
 class App extends Component {
-  componentDidMount(){
-    // Where do we fetch? Welke url? 
-    // Kijken waar nu iets fetched, en dan hetzelfde doen 
-
-  }
-
   render() {
     return (
       <div className="App">
-      <FormContainer />
-      <FeedbackButton />
-      <Query
-        query={GET_TEST}
-        // skip={props.username === ``}
-        // variables={{ username: 'reinoptland' }}
-      >
-        {({ loading, error, data }) => {
-          console.log('LOADING', loading)
-          console.log('ERROR', error)
-          console.log('DATA', data)
-          return null
-          // if (loading) return <Loader />;
+        <FormContainer />
+        <FeedbackButton />
 
-          // if (error)
-          //   return (
-          //     <div className="errorBox">
-          //       <p>Please submit valid username </p>
-          //     </div>
-          //   );
-
-          // return <div> {data && <ProfileStats user={data.user} />}</div>;
-        }}
-      </Query>
+        <Query
+          // New query
+          query={GET_NEW_QUERY}
+        >
+          {({ loading, error, data }) => {
+            console.log("GET NEW QUERY RESULT: ", data);
+            return null;
+          }}
+        </Query>
       </div>
     );
   }
