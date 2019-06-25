@@ -63,6 +63,8 @@ export const GET_NEW_QUERY = gql`
     }
     repo {
       greet
+      repos
+      languages
     }
   }
 `;

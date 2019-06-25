@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { fetchRepoData } from "./data/repoDetails";
 import { analizeProfile } from "./data/profileScore";
 import { fetchGeneralData } from "./data/gitUse";
+import { fetchLanguages } from "./details/details"
 import { Score } from "./score/entity";
 import { fetchUser } from "./data/user";
 
@@ -22,6 +23,8 @@ const typeDefs = `
 
   type Repo {
     greet: String
+    repos: [String]
+    languages: [String]
   }
 
   type User {
@@ -145,14 +148,11 @@ const resolvers = {
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
           saveScoreIfUpdated(score, lastScore);
+          data.profileScore = data.score;
+          data.repoScore = 0;
           return data;
         });
       }
-
-      saveScoreIfUpdated(score, lastScore);
-      data.profileScore = data.score;
-      data.repoScore = 0;
-      return data;
     },
     username: async () => {
       // Needs to fetch here
@@ -162,11 +162,13 @@ const resolvers = {
         greet: 'Hallo username!'
       }
     },
-    repo: async () => {
-
-      // Needs to fetch here
+    repo: async (_, { username }, __, ___) => {
+      const result = await fetchLanguages(username)
+      console.log(result)
       return {
-        greet: 'Hallo repo!'
+        greet: 'Hallo jongens!',
+        repos: result.repoNames,
+        languages: result.languages
       }
     }
   },

@@ -5,6 +5,7 @@ const typeorm_1 = require("typeorm");
 const repoDetails_1 = require("./data/repoDetails");
 const profileScore_1 = require("./data/profileScore");
 const gitUse_1 = require("./data/gitUse");
+const details_1 = require("./details/details");
 const entity_1 = require("./score/entity");
 const typeDefs = `
 
@@ -14,7 +15,12 @@ const typeDefs = `
   }
 
   type Repo {
+<<<<<<< HEAD
     greet: String
+=======
+    greet: String,
+    languages: String
+>>>>>>> 866a2e52c705e2e6451dedd586a9220eede1b7e4
   }
 
   type User {
@@ -132,9 +138,17 @@ const resolvers = {
             data.repoScore = 0;
             return data;
         },
+<<<<<<< HEAD
         repo: async () => {
             return {
                 greet: 'Hallo jongens!'
+=======
+        repo: async (_, { username }, __, ___) => {
+            const result = await details_1.fetchLanguages(username);
+            return {
+                greet: 'Hallo jongens!',
+                languages: result
+>>>>>>> 866a2e52c705e2e6451dedd586a9220eede1b7e4
             };
         }
     },
