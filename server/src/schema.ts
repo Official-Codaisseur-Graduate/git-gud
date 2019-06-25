@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { fetchRepoData } from "./data/repoDetails";
 import { analizeProfile } from "./data/profileScore";
 import { fetchGeneralData } from "./data/gitUse";
+import { fetchLanguages } from "./details/details"
 import { Score } from "./score/entity";
 
 // Demmy: this is the defining part of the user object
@@ -14,7 +15,8 @@ const typeDefs = `
   }
 
   type Repo {
-    greet: String
+    greet: String,
+    languages: String
   }
 
   type User {
@@ -140,7 +142,7 @@ const resolvers = {
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
           saveScoreIfUpdated(score, lastScore);
-          console.log("Demmy: console log final data: ", data)
+          
           return data;
         });
       }
@@ -150,9 +152,11 @@ const resolvers = {
       data.repoScore = 0;
       return data;
     },
-    repo: async () => {
+    repo: async (_, { username }, __, ___) => {
+      const result = await fetchLanguages(username)
       return {
-        greet: 'Hallo jongens!'
+        greet: 'Hallo jongens!',
+        languages: result
       }
     }
   },

@@ -70,18 +70,17 @@ exports.fetchGeneralData = username => {
             });
             const { averageBranchPerRepo, averageCommitPerBranch } = generalRepos_1.generalRepoValidation(totalPinnedRepos, repoPlusBranchCount, branchNamePlusCommitCount);
             const repoNames = repoPlusBranchCount.map(rep => {
-                return { name: rep.repoName,
-                    owner: rep.repoOwner };
+                return {
+                    name: rep.repoName,
+                    owner: rep.repoOwner
+                };
             });
             return {
                 totalPinnedRepos,
                 averageBranchPerRepo,
                 averageCommitPerBranch,
                 repoNames,
-                // Demmy: added
-                repoPlusBranchCount,
-                branchNamePlusCommitCount
-               
+                repoPlusBranchCount
             };
         }
     })

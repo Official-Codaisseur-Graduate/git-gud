@@ -5,11 +5,18 @@ const typeorm_1 = require("typeorm");
 const repoDetails_1 = require("./data/repoDetails");
 const profileScore_1 = require("./data/profileScore");
 const gitUse_1 = require("./data/gitUse");
+const details_1 = require("./details/details");
 const entity_1 = require("./score/entity");
 const typeDefs = `
 
   type Query {
     user(username: String): User
+    repo: Repo
+  }
+
+  type Repo {
+    greet: String,
+    languages: String
   }
 
   type User {
@@ -84,6 +91,7 @@ const resolvers = {
             const data = await profileScore_1.analizeProfile(username);
             const gitUse = await gitUse_1.fetchGeneralData(username);
             data.stats = gitUse;
+            console.log("Demmy: data stats: ", data.stats);
             let averageRepoScore = 0;
             let lastScore;
             const userScores = await entity_1.Score.find({ userName: username });
@@ -103,8 +111,9 @@ const resolvers = {
                     const TEST = await repoDetails_1.fetchRepoData(repo.owner, repo.name).then(repoData => {
                         if (!repoData)
                             throw new Error();
+                        console.log("Demmy: repo data: ", repoData);
                         averageRepoScore += repoData.totalRepoScore;
-                        data.stats.repoNames[i] = Object.assign({}, data.stats.repoNames[i], { commitScore: Object.assign({}, repoData.commitScore), branchScore: Object.assign({}, repoData.branchScore), description: repoData.description, gitIgnoreScore: repoData.gitIgnoreScore, repoReadMe: repoData.repoReadMe, totalRepoScore: repoData.totalRepoScore });
+                        data.stats.repoNames[i] = Object.assign({}, data.stats.repoNames[i], { commitScore: Object.assign({}, repoData.commitScore), branchScore: Object.assign({}, repoData.branchScore), amountOfBranches: Object.assign({}, repoData.branchCount), description: repoData.description, gitIgnoreScore: repoData.gitIgnoreScore, repoReadMe: repoData.repoReadMe, totalRepoScore: repoData.totalRepoScore });
                     });
                     return TEST;
                 });
@@ -123,8 +132,15 @@ const resolvers = {
             data.profileScore = data.score;
             data.repoScore = 0;
             return data;
+        },
+        repo: async (_, { username }, __, ___) => {
+            const result = await details_1.fetchLanguages(username);
+            return {
+                greet: 'Hallo jongens!',
+                languages: result
+            };
         }
-    }
+    },
 };
 const schema = graphql_tools_1.makeExecutableSchema({
     typeDefs,

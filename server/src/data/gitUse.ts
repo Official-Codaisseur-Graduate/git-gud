@@ -52,7 +52,6 @@ export const fetchGeneralData = username => {
         }
         `
   }).then(res => {
-
     const totalPinnedRepos = res.data.user.pinnedRepositories.totalCount;
 
     if (totalPinnedRepos === 0) {
