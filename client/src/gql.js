@@ -57,8 +57,8 @@ export const GET_USER_DATA = gql`
 
 // Newly added
 export const GET_NEW_QUERY = gql`
-  query {
-    username {
+query GetUser($username: String!) {
+    username(username: $username) {
       greet
     }
     repo {

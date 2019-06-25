@@ -7,13 +7,12 @@ import { fetchLanguages } from "./details/details"
 import { Score } from "./score/entity";
 import { fetchUser } from "./data/user";
 
-// Demmy: this is the defining part of the user object
 const typeDefs = `
 
   type Query {
     user(username: String): User
-    repo: Repo
-    username: Username
+    repo(username: String): Repo
+    username(username: String): Username
   }
 
   type Username {
@@ -22,6 +21,7 @@ const typeDefs = `
 
 
   type Repo {
+    username: String
     greet: String
     repos: [String]
     languages: [String]
@@ -157,12 +157,18 @@ const resolvers = {
     username: async () => {
       // Needs to fetch here
       const data = await fetchUser("demmyhonore");
-      console.log("fetchUser", data.nodes)
+      console.log("fetchUser", data)
       return {
         greet: 'Hallo username!'
       }
     },
-    repo: async (_, { username }, __, ___) => {
+    repo: async (door1, door2, door3, door4) => {
+      console.log('DOOR1', door1)
+      console.log('DOOR2', door2)
+      console.log('DOOR3', door3)
+      console.log('DOOR4', door4.variableValues.username)
+
+      const username = door4.variableValues.username
       const result = await fetchLanguages(username)
       console.log(result)
       return {
