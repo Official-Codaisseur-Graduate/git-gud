@@ -3,6 +3,7 @@ import { createApolloFetch } from "apollo-fetch";
 const token = process.env.GITHUB_ACCESS_TOKEN;
 
 export const fetchLanguages = username => {
+  console.log('IS THERE A USERNAME?', username)
   const fetch = createApolloFetch({
     uri: "https://api.github.com/graphql"
   });

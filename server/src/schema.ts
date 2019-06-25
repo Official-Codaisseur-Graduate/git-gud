@@ -11,7 +11,7 @@ const typeDefs = `
 
   type Query {
     user(username: String): User
-    repo: Repo
+    repo(username: String): Repo
   }
 
   type Repo {
@@ -153,7 +153,8 @@ const resolvers = {
       data.repoScore = 0;
       return data;
     },
-    repo: async (_, { username }, __, ___) => {
+    repo: async (_, { username } , __, ___) => {
+      console.log('THE USERNAME', username)
       const result = await fetchLanguages(username)
       console.log(result)
       return {
