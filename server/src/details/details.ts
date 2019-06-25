@@ -18,7 +18,7 @@ export const fetchLanguages = username => {
     query: `{
           user(login: "${username}") {
             name,
-            repositories(first: 3) {
+            repositories(first: 50) {
               edges {
                 node {
                   name,
@@ -37,22 +37,24 @@ export const fetchLanguages = username => {
         `
   })
   .then(result => {
-    // console.log('HERE IS THE RESULT', result.data.user.repositories.edges)
+    const repoNames = result.data.user.repositories.edges.map(edge => {
+      return edge.node.name
+     })
+
     const languages = result.data.user.repositories.edges.map(edge => {
-      return edge.node.languages
-    })
-    console.log('LANGUAGE', languages)
-    
-    const final = languages.map(obj => {
-      console.log('THIS OBJECT', obj)
-      
-      // const languagesPerRepo = obj.edges.map(obj => {
-      //   console.log('NODE????', obj.node.name)
-        
-      //   return obj.node.name
-      // })
-    })
-    console.log('FINAL RESULT', final)
-    return null
+      // const repoName = edge.node.name
+      const languagePerRepo = edge.node.languages.edges.map(edge => {
+        if (edge.node.length < 1) {
+          return 'Not identified'
+        }
+        return edge.node.name
+      })
+      return languagePerRepo
+    }).flat()
+
+    // I added in the repoNames first, but that wasn't very convenient,
+    // so I separated them in case we would need them later
+
+    return { repoNames, languages }
   })
 }

@@ -15,8 +15,9 @@ const typeDefs = `
   }
 
   type Repo {
-    greet: String,
-    languages: String
+    greet: String
+    repos: [String]
+    languages: [String]
   }
 
   type User {
@@ -154,9 +155,11 @@ const resolvers = {
     },
     repo: async (_, { username }, __, ___) => {
       const result = await fetchLanguages(username)
+      console.log(result)
       return {
         greet: 'Hallo jongens!',
-        languages: result
+        repos: result.repoNames,
+        languages: result.languages
       }
     }
   },
