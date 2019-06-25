@@ -22,9 +22,7 @@ class App extends Component {
         variables={{ username: 'reinoptland' }}
       >
         {({ loading, error, data }) => {
-          console.log('LOADING', loading)
-          console.log('ERROR', error)
-          console.log('DATA', data)
+          console.log(data)
           return null
           // if (loading) return <Loader />;
 

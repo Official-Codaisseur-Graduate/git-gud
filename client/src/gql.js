@@ -62,6 +62,8 @@ export const GET_TEST = gql`
   query GetSpecificRepo {
     repo {
       greet
+      repos
+      languages
     }
   }
 `;

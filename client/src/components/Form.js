@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import { GET_USER_DATA } from "../gql";
+import { GET_USER_DATA, GET_TEST } from "../gql";
 import ProfileStats from "./ProfileStats";
 import Loader from "./Loader";
 
