@@ -64,6 +64,7 @@ export const GET_TEST = gql`
       greet
       repos
       languages
+      
     }
   }
 `;
