@@ -164,7 +164,7 @@ const resolvers = {
     },
     repo: async (_, { username }, __, ___) => {
       const result = await fetchLanguages(username)
-      console.log('THE RESULT', result.collaborations)
+      console.log('THE RESULT', result.langCount)
       return {
         greet: 'Hallo jongens!',
         repos: result.repoNames,
