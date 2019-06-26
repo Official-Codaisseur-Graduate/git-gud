@@ -3,7 +3,6 @@ import { createApolloFetch } from "apollo-fetch";
 const token = process.env.GITHUB_ACCESS_TOKEN;
 
 export const fetchLanguages = username => {
-  console.log('IS THERE A USERNAME?', username)
   const fetch = createApolloFetch({
     uri: "https://api.github.com/graphql"
   });
@@ -19,6 +18,17 @@ export const fetchLanguages = username => {
     query: `{
           user(login: "${username}") {
             name,
+            repositoriesContributedTo(first: 100) {
+              totalCount,
+              edges {
+                node {
+                  name,
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
             repositories(first: 100) {
               edges {
                 node {
@@ -38,7 +48,15 @@ export const fetchLanguages = username => {
         `
   })
   .then(result => {
-    // Finds the first 50 repos (considering there aren't more) and extracts the names into an array
+    // console.log('THE RESULT', result.data.user.repositoriesContributedTo)
+
+    // const totalCollaborations = result.data.user.repositoriesContributedTo.totalCount
+
+    const collaborations = result.data.user.repositoriesContributedTo.edges.map(edge => {
+      return {repoName: edge.node.name, owner: edge.node.owner.login}
+    })
+
+    // Finds the first 100 repos (considering there aren't more) and extracts the names into an array
     const repoNames = result.data.user.repositories.edges.map(edge => {
       return edge.node.name
      })
@@ -65,12 +83,9 @@ export const fetchLanguages = username => {
       }
     })
 
-    console.log(langCount)
+    // console.log(langCount)
 
 
-    // I added in the repoNames first, but that wasn't very convenient,
-    // so I separated them in case we would need them later
-
-    return { repoNames, languages, langCount }
+    return { repoNames, languages, langCount, collaborations }
   })
 }

@@ -19,10 +19,16 @@ const typeDefs = `
     repos: [String]
     languages: [String]
     langCount: Languages
+    collaborations: [Collaboration]
   }
 
   type Languages {
     language: Int
+  }
+
+  type Collaboration {
+    repoName: String
+    owner: String
   }
 
   type User {
@@ -98,7 +104,6 @@ const resolvers = {
       const data = await analizeProfile(username);
       const gitUse = await fetchGeneralData(username);
       data.stats = gitUse;
-      console.log("Demmy: data stats: ", data.stats)
       let averageRepoScore = 0;
       let lastScore;
       const userScores = await Score.find({ userName: username });
@@ -120,7 +125,6 @@ const resolvers = {
           const TEST = await fetchRepoData(repo.owner, repo.name).then(
             repoData => {
               if (!repoData) throw new Error();
-              console.log("Demmy: repo data: ", repoData)
               averageRepoScore += repoData.totalRepoScore;
               data.stats.repoNames[i] = {
                 ...data.stats.repoNames[i],
@@ -160,12 +164,13 @@ const resolvers = {
     },
     repo: async (_, { username }, __, ___) => {
       const result = await fetchLanguages(username)
-      console.log('THE RESULT', result)
+      console.log('THE RESULT', result.collaborations)
       return {
         greet: 'Hallo jongens!',
         repos: result.repoNames,
         languages: result.languages,
-        langCount: result.langCount
+        langCount: result.langCount,
+        collaborations: result.collaborations
       }
     }
   },
