@@ -18,6 +18,11 @@ const typeDefs = `
     greet: String
     repos: [String]
     languages: [String]
+    langCount: Languages
+  }
+
+  type Languages {
+    language: Int
   }
 
   type User {
@@ -143,7 +148,7 @@ const resolvers = {
           data.score = Math.round(data.score);
           score.gitScore = data.repoScore;
           saveScoreIfUpdated(score, lastScore);
-          
+
           return data;
         });
       }
@@ -153,14 +158,14 @@ const resolvers = {
       data.repoScore = 0;
       return data;
     },
-    repo: async (_, { username } , __, ___) => {
-      console.log('THE USERNAME', username)
+    repo: async (_, { username }, __, ___) => {
       const result = await fetchLanguages(username)
-      console.log(result)
+      console.log('THE RESULT', result)
       return {
         greet: 'Hallo jongens!',
         repos: result.repoNames,
-        languages: result.languages
+        languages: result.languages,
+        langCount: result.langCount
       }
     }
   },

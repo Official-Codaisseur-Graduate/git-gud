@@ -19,7 +19,7 @@ export const fetchLanguages = username => {
     query: `{
           user(login: "${username}") {
             name,
-            repositories(first: 50) {
+            repositories(first: 100) {
               edges {
                 node {
                   name,
@@ -38,10 +38,12 @@ export const fetchLanguages = username => {
         `
   })
   .then(result => {
+    // Finds the first 50 repos (considering there aren't more) and extracts the names into an array
     const repoNames = result.data.user.repositories.edges.map(edge => {
       return edge.node.name
      })
 
+    // Renders an array of all languages used in the found repos
     const languages = result.data.user.repositories.edges.map(edge => {
       // const repoName = edge.node.name
       const languagePerRepo = edge.node.languages.edges.map(edge => {
@@ -53,9 +55,22 @@ export const fetchLanguages = username => {
       return languagePerRepo
     }).flat()
 
+
+    let langCount = new Object()
+    languages.map(language => {
+      if (!langCount.hasOwnProperty(language)) {
+        return langCount[language] = 1
+      } else {
+        return langCount[language]++
+      }
+    })
+
+    console.log(langCount)
+
+
     // I added in the repoNames first, but that wasn't very convenient,
     // so I separated them in case we would need them later
 
-    return { repoNames, languages }
+    return { repoNames, languages, langCount }
   })
 }
