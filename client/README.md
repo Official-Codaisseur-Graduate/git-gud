@@ -57,15 +57,16 @@ Setup a local postgresql database<br>
 cd into client <br>
 `$ npm install` <br>
 `$ npm run dev` <br>
-> client/src/index.js contains the server url
-> If you want to work on the face recognition, then install open cv <br>
 `$ brew install pkg-config opencv@2`<br>
 `$ brew link opencv@2 --force`<br>
 cd into server <br>
 `$ npm install` <br> 
 `GITHUB_ACCESS_TOKEN=<YOURTOKEN> npm run dev` <br>
-> Server needs to be launched with GitHub token to make requests to GitHub GraphQL API possible.
-> You can make a token at your GitHub account settings. [See instructions here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
+
+> Server needs to be launched with GitHub token to enable requests to GitHub GraphQL API.
+> [See instructions to create GitHub token here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). <br>
+> client/src/index.js contains the server url. <br>
+> Install open cv to work on face recognition. <br>
 
 ## Deployment server to Heroku
 
