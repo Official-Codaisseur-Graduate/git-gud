@@ -71,17 +71,11 @@ cd into server <br>
 ## Deployment server to Heroku
 
 NodeJS buildpack
-
-$ heroku buildpacks:add heroku/nodejs
-
+`$ heroku buildpacks:add heroku/nodejs`
 OpenCV builbpack
-
-$ heroku buildpacks:add --index 1 https://github.com/automata/heroku-buildpack-opencv.git
-
+`$ heroku buildpacks:add --index 1 https://github.com/automata/heroku-buildpack-opencv.git`
 Downgrade to Cedar 14 since on Cedar 16 it won’t work without extra configurations
-
-$ heroku stack:set cedar-14
-
+`$ heroku stack:set cedar-14`
 Push to Heroku
 
 $ git push heroku
