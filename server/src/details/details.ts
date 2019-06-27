@@ -15,6 +15,17 @@ export const fetchLanguages = username => {
     next();
   });
   return fetch({
+    /* 
+    Newly added: 
+    We are querying below our own repositories,
+    and the ones we contributed to. 
+    
+    About contributed repositories:
+    - Login is simply requesting the username of the person's repo you are contributing to (string).
+
+    About own repositories:
+    - Here we are requesting all the programming languages used in each repo.
+    */
     query: `{
           user(login: "${username}") {
             name,
@@ -47,45 +58,44 @@ export const fetchLanguages = username => {
         }
         `
   })
-  .then(result => {
-    // console.log('THE RESULT', result.data.user.repositoriesContributedTo)
+    .then(result => {
+      /* 
+      Newly added: below we receive the results of the above query.
+      Log this result as follows: console.log('Whole query result', result.data)
+      */
 
-    // const totalCollaborations = result.data.user.repositoriesContributedTo.totalCount
+      // Newly added: mapping all the repo's you contributed to and returning name and owner of repo.
+      const collaborations = result.data.user.repositoriesContributedTo.edges.map(edge => {
+        return { repoName: edge.node.name, owner: edge.node.owner.login }
+      })
 
-    const collaborations = result.data.user.repositoriesContributedTo.edges.map(edge => {
-      return {repoName: edge.node.name, owner: edge.node.owner.login}
-    })
-
-    // Finds the first 100 repos (considering there aren't more) and extracts the names into an array
-    const repoNames = result.data.user.repositories.edges.map(edge => {
-      return edge.node.name
-     })
-
-    // Renders an array of all languages used in the found repos
-    const languages = result.data.user.repositories.edges.map(edge => {
-      // const repoName = edge.node.name
-      const languagePerRepo = edge.node.languages.edges.map(edge => {
-        if (edge.node.length < 1) {
-          return 'Not identified'
-        }
+      // Newly added: here we are mapping all of names of your own repo's.
+      const repoNames = result.data.user.repositories.edges.map(edge => {
         return edge.node.name
       })
-      return languagePerRepo
-    }).flat()
 
+      // Newly added: renders an array of all languages used in your own repos
+      const languages = result.data.user.repositories.edges.map(edge => {
+        const languagePerRepo = edge.node.languages.edges.map(edge => {
+          if (edge.node.length < 1) {
+            return 'Not identified'
+          }
+          return edge.node.name
+        })
+        return languagePerRepo
+      }).flat()
 
-    let langCount = new Object()
-    languages.map(language => {
-      if (!langCount.hasOwnProperty(language)) {
-        return langCount[language] = 1
-      } else {
-        return langCount[language]++
-      }
+      // Newly added: here we are creating an empty object and counting the frequency of the used languages.
+      let langCount = new Object()
+      languages.map(language => {
+        if (!langCount.hasOwnProperty(language)) {
+          return langCount[language] = 1
+        } else {
+          return langCount[language]++
+        }
+      })
+
+      // Newly added: returning all the above function results to the resolver in schema.ts
+      return { repoNames, languages, langCount, collaborations }
     })
-
-    // console.log(langCount)
-
-
-    return { repoNames, languages, langCount, collaborations }
-  })
 }

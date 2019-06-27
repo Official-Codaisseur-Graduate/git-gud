@@ -1,69 +1,93 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GitGud
+[CHECK OUR DEMO](https://gityougud.herokuapp.com/)
 
-## Available Scripts
+A validator of your GitHub profile and usage, designed to provide feedback for job seekers and graduated students.
 
-In the project directory, you can run:
+## How
 
+First it checks your public profile - A good GitHub profile can impress an interviewer.
 
-### `npm start`
+Secondly it validates your pinned repositories on how you use Git - Proper use of version control with Git can show that you are a structured worker and is able to work in development teams. We chose to focus on your pinned repos because you can present certain project as you portfolio for potential employers
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Why
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+You can use GitHub as your resume for job hunting. For developers it is important to code regularly, be able to work in teams, communicate properly and continue with a learning curve. Obviously this is something you can say you are the best in and write it on your resume, but with GitHub you are able to show that you can do this. Which will give you headsup on your next interview.
 
-### `npm test`
+Unfortunately many recent graduates or job seekers lack a proper GitHub profile. And as Codaisseur teachers can acknowledge, the feedback they get is repetitive. Therefore we developed this tool and provide constructive feedback which is based on various resources accross the internet and uses live data from the GitHub API.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Who
 
-### `npm run build`
+* **Oleksandra Akulshyna** - *Initial work* - [w3bgir1](https://github.com/w3bgir1)
+* **Vincent de Graaf** - *Initial work* - [vdegraaf](https://github.com/vdegraaf)
+* **Natalia Volchatova** - *Initial work* - [Klackky](https://github.com/Klackky)
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technology
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+* Frontend - JavaScript, ApolloClient <br>
+* Backend - TypeScript, GraphQL, Apollo/KoaServer <br>
+* GitHub API v4 - GraphQL <br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Current progress
 
-### `npm run eject`
+On branch 'languages-2' there are 14 commits ahead of master. These contain an additional query on the repo to return the languages used. The goal is to create awareness in the students practice per language.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The below files have been touched (files carry comments):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### 1. [server/src/details/details.ts](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/languages-2/server/src/details/details.ts)
+- fetchLanguages function sends 2 queries to GitHub's GraphQL server.
+- fetchLanguages function captures and organizes what GitHub returns and sends results to schema.ts. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### 2. [server/src/schema.ts](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/languages-2/server/src/schema.ts)
+- Resolver receives the above results and organizes a new object for the client to receive.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### 3. [client/src/gql.js](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/languages-2/client/src/gql.js)
+- The actual query from the client to the server is defined here.
 
-## Learn More
+#### 4. [client/src/App.js](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/languages-2/client/src/App.js)
+- Contains the component that initiates the query.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 5. Next steps for the students continuing this project
+- We encourage to use the repo languages data received on client side, e.g. with a pie chart.
+- The current repo query (step 1-4) can be extended with more repo data to use on client side.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Install
 
-### Code Splitting
+Clone repository <br>
+setup local postgresql database<br>
+cd into client  <br>
+$ npm install <br>
+$ npm run dev<br>
+install open cv <br>
+$ brew install pkg-config opencv@2<br>
+$ brew link opencv@2 --force<br>
+cd into server <br>
+$ npm install <br> 
+$ GITHUB_ACCESS_TOKEN= yourtokenhere \ npm run dev<br>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Deployment server to Heroku
 
-### Analyzing the Bundle Size
+NodeJS buildpack
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+$ heroku buildpacks:add heroku/nodejs
 
-### Making a Progressive Web App
+OpenCV builbpack
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+$ heroku buildpacks:add --index 1 https://github.com/automata/heroku-buildpack-opencv.git
 
-### Advanced Configuration
+Downgrade to Cedar 14 since on Cedar 16 it won’t work without extra configurations
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+$ heroku stack:set cedar-14
 
-### Deployment
+Push to Heroku
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+$ git push heroku
 
-### `npm run build` fails to minify
+After deploying your app may scale down to 0 dynos
+... so increase dynos amount to the desired number
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+$ heroku ps:scale web=1
+
+## Acknowledgments
+
+Special thanks to Rein op 't Land, our teacher and Product Owner. 
+* **Rein op 't Land** - [ReinoptLand](https://github.com/Reinoptland)

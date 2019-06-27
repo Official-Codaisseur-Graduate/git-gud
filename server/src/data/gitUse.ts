@@ -62,7 +62,6 @@ export const fetchGeneralData = username => {
           const repoName = repo.node.name;
           const branchCount = repo.node.refs.totalCount;
           const repoOwner = repo.node.owner.login
-          // Demmy: branches are counted here
           return { repoName, repoOwner, branchCount };
         }
       );

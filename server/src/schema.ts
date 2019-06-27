@@ -6,7 +6,6 @@ import { fetchGeneralData } from "./data/gitUse";
 import { fetchLanguages } from "./details/details"
 import { Score } from "./score/entity";
 
-// Demmy: this is the defining part of the user object
 const typeDefs = `
 
   type Query {
@@ -162,11 +161,14 @@ const resolvers = {
       data.repoScore = 0;
       return data;
     },
+    /* 
+    Newly added: below we are returning all the result from details.ts.
+    And we are making a new object of it. This will be sent to the client side (gql.js)
+    */
     repo: async (_, { username }, __, ___) => {
       const result = await fetchLanguages(username)
-      console.log('THE RESULT', result.langCount)
+      // console.log('result', result)
       return {
-        greet: 'Hallo jongens!',
         repos: result.repoNames,
         languages: result.languages,
         langCount: result.langCount,

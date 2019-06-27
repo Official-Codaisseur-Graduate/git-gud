@@ -1,41 +1,26 @@
-import React, { Component } from 'react';
-import FormContainer from './components/FormContainer';
-import FeedbackButton from './components/FeedbackButton';
-import { GET_USER_DATA, GET_TEST } from './gql'
+import React, { Component } from "react";
+import FormContainer from "./components/FormContainer";
+import FeedbackButton from "./components/FeedbackButton";
+import { GET_USER_DATA, GET_TEST } from "./gql";
 import { Query } from "react-apollo";
 
 class App extends Component {
-  componentDidMount(){
-    // Where do we fetch? Welke url? 
-    // Kijken waar nu iets fetched, en dan hetzelfde doen 
-
-  }
-
   render() {
     return (
       <div className="App">
-      <FormContainer />
-      <FeedbackButton />
-      <Query
-        query={GET_TEST}
-        // skip={props.username === ``}
-        variables={{ username: 'reinoptland' }}
-      >
-        {({ loading, error, data }) => {
-          console.log(data)
-          return null
-          // if (loading) return <Loader />;
-
-          // if (error)
-          //   return (
-          //     <div className="errorBox">
-          //       <p>Please submit valid username </p>
-          //     </div>
-          //   );
-
-          // return <div> {data && <ProfileStats user={data.user} />}</div>;
-        }}
-      </Query>
+        <FormContainer />
+        <FeedbackButton />
+        {/* 
+      Newly added: below the GET_TEST query that is defined in gql.js.
+      The server result we are getting is captured trough the data parameter.
+      This result is usable to use in the front-end.
+      */}
+        <Query query={GET_TEST} variables={{ username: "reinoptland" }}>
+          {({ loading, error, data }) => {
+            console.log(data);
+            return null;
+          }}
+        </Query>
       </div>
     );
   }

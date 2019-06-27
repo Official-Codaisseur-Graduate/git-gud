@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
 
-// Demmy: this is the query part of the user object
 export const GET_USER_DATA = gql`
   query GetUser($username: String!) {
     user(username: $username) {
@@ -56,16 +55,18 @@ export const GET_USER_DATA = gql`
   }
 `;
 
-// Option: harcode info to make the request to github
-// which username, which repo
+/* 
+Newly added: below we are requesting information from the server (see resolver schema.ts).
+Below's query matches the object we returned on server side at the resolver.
+the GET_TEST query is being made in App.js (basically on page load).
+*/
 export const GET_TEST = gql`
   query GetSpecificRepo($username: String!) {
     repo(username: $username) {
-      greet
       repos
       languages
       collaborations {
-        repoName,
+        repoName
         owner
       }
       langCount {
