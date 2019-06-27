@@ -63,7 +63,7 @@ cd into server <br>
 `$ npm install` <br> 
 `GITHUB_ACCESS_TOKEN=<YOURTOKEN> npm run dev` <br>
 
-> Server needs to be launched with GitHub token to enable requests to GitHub GraphQL API. <br>
+> Server needs to be launched with GitHub token to enable GitHub API requests. <br>
 > [See instructions to create GitHub token here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line). <br>
 > client/src/index.js contains the server url. <br>
 > Install open cv to work on face recognition. <br>
