@@ -50,19 +50,22 @@ The below files have been touched (files contain comments for further guidance):
 - We encourage to use the repo languages data received on client side, e.g. with a pie chart.
 - The current repo query (step 1-4) can be extended with more repo data to use on client side.
 
-## Install
+## Running the app locally
 
-Clone repository <br>
-setup local postgresql database<br>
-cd into client  <br>
-$ npm install <br>
-$ npm run dev<br>
-install open cv <br>
-$ brew install pkg-config opencv@2<br>
-$ brew link opencv@2 --force<br>
+Clone the repository <br>
+Setup a local postgresql database<br>
+cd into client <br>
+`$ npm install` <br>
+`$ npm run dev` <br>
+> client/src/index.js contains the server url
+> If you want to work on the face recognition, then install open cv <br>
+`$ brew install pkg-config opencv@2`<br>
+`$ brew link opencv@2 --force`<br>
 cd into server <br>
-$ npm install <br> 
-$ GITHUB_ACCESS_TOKEN= yourtokenhere \ npm run dev<br>
+`$ npm install` <br> 
+`GITHUB_ACCESS_TOKEN=<YOURTOKEN> npm run dev` <br>
+> Server needs to be launched with GitHub token to make requests to GitHub GraphQL API possible.
+> You can make a token at your GitHub account settings. [See instructions here](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
 
 ## Deployment server to Heroku
 
