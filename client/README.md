@@ -3,6 +3,16 @@
 
 A validator of your GitHub profile and usage, designed to provide feedback for job seekers and graduated students.
 
+## Table of contents:
+
+- **[How](#how)**
+- **[Why](#why)**
+- **[Who](#who)**
+- **[Technologies](#technologies)**
+- **[Current progress](#current-progress)**
+- **[Running the app locally](#running-the-app-locally)**
+- **[Deployment server to Heroku](#deployment-server-to-heroku)**
+
 ## How
 
 First it checks your public profile - A good GitHub profile can impress an interviewer.
@@ -21,7 +31,7 @@ Unfortunately many recent graduates or job seekers lack a proper GitHub profile.
 * **Vincent de Graaf** - *Initial work* - [vdegraaf](https://github.com/vdegraaf)
 * **Natalia Volchatova** - *Initial work* - [Klackky](https://github.com/Klackky)
 
-## Technology
+## Technologies
 
 * Frontend - JavaScript, ApolloClient <br>
 * Backend - TypeScript, GraphQL, Apollo/KoaServer <br>
