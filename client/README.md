@@ -70,20 +70,18 @@ cd into server <br>
 
 ## Deployment server to Heroku
 
-NodeJS buildpack
-`$ heroku buildpacks:add heroku/nodejs`
-OpenCV builbpack
-`$ heroku buildpacks:add --index 1 https://github.com/automata/heroku-buildpack-opencv.git`
-Downgrade to Cedar 14 since on Cedar 16 it won’t work without extra configurations
-`$ heroku stack:set cedar-14`
-Push to Heroku
+NodeJS buildpack <br>
+`$ heroku buildpacks:add heroku/nodejs` <br>
+OpenCV builbpack <br>
+`$ heroku buildpacks:add --index 1 https://github.com/automata/heroku-buildpack-opencv.git` <br>
+Downgrade to Cedar 14 since on Cedar 16 it won’t work without extra configurations <br>
+`$ heroku stack:set cedar-14` <br>
+Push to Heroku <br>
+`$ git push heroku` <br>
+`$ heroku ps:scale web=1` <br>
 
-$ git push heroku
-
-After deploying your app may scale down to 0 dynos
-... so increase dynos amount to the desired number
-
-$ heroku ps:scale web=1
+> After deploying your app may scale down to 0 dynos
+> ... so increase dynos amount to the desired number
 
 ## Acknowledgments
 
