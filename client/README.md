@@ -31,7 +31,7 @@ Unfortunately many recent graduates or job seekers lack a proper GitHub profile.
 
 On branch [languages-2](https://github.com/Official-Codaisseur-Graduate/git-gud/tree/languages-2) there are 14 commits ahead of master. These contain an additional query on the repo to return the languages used. The goal is to create awareness in the students practice per language.
 
-The below files have been touched (files carry comments):
+The below files have been touched (files contain comments for further guidance):
 
 #### 1. [server/src/details/details.ts](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/languages-2/server/src/details/details.ts)
 - fetchLanguages function sends 2 queries to GitHub's GraphQL server.
