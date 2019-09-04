@@ -1,6 +1,6 @@
 # GitGud
 
-[CHECK OUR DEMO](https://gityougud.herokuapp.com/) <br>
+[CHECK OUR DEMO](https://gitgud.netlify.com/) <br>
 A validator of your GitHub profile and usage, designed to provide feedback for job seekers. <br>
 
 ![](https://github.com/Official-Codaisseur-Graduate/git-gud/blob/master/demo.gif)
