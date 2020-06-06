@@ -22,7 +22,7 @@
     "@types/react-dom": "^16.8.2",
     "apollo-client-preset": "^1.0.8",
     "apollo-fetch": "^0.7.0",
-    "apollo-server-koa": "^1.4.0",
+    "apollo-server-koa": "^2.14.2",
     "cors": "^2.8.5",
     "face-detector": "^1.0.4",
     "graphql": "^14.4.2",
